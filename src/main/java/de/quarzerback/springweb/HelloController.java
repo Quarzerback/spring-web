@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api")
@@ -22,6 +23,30 @@ public class HelloController {
     @GetMapping("/messages")
     public List<Message> getAllMessages(){
         return messageList;
+    }
+
+    @GetMapping("/messages/search")
+    public Message getMessageByParam(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String message,
+            @RequestParam(required = false) String id
+    ){
+        for (Message msg : messageList){
+            if (msg.getId().equals(id)) {
+                return msg;
+            }
+        }
+        for (Message msg : messageList){
+            if (msg.getName().equals(name)) {
+                return msg;
+            }
+        }
+        for (Message msg : messageList){
+            if (msg.getMessage().equals(message)) {
+                return msg;
+            }
+        }
+        throw new NoSuchElementException("This message doesn't exist.");
     }
 
     @PostMapping("/messages")
