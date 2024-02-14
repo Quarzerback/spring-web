@@ -1,5 +1,6 @@
 package de.quarzerback.springweb;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class HelloController {
     }
 
     @PostMapping("/messages")
+    @ResponseStatus(HttpStatus.CREATED)
     public List<Message> addMessage(@RequestBody Message message){
         messageList.add(message);
         return messageList;
